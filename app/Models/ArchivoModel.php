@@ -12,4 +12,12 @@ class ArchivoModel extends Model
     protected $useSoftDeletes = true;
     protected $useTimestamps = true;
     protected $dateFormat = 'datetime';
+
+
+    public function buscar($termino)
+    {
+        return $this->like('nombre', $termino)
+            ->findAll();
+    }
+
 }

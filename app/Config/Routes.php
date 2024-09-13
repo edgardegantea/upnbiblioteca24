@@ -25,6 +25,8 @@ $routes->get('acercade', 'Home::acercade');
 
 
 
+
+
 $routes->group('admin', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Admin\AdminController::index');
 
@@ -74,3 +76,6 @@ $routes->group('usuario', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Usuario\UsuarioController::index');
     $routes->get('archivos/visualizar/(:num)', 'ArchivoController::visualizar/$1');
 });
+
+$routes->get('/resultados-busqueda', 'ArchivoController::mostrarResultados');
+$routes->get('/archivos/visualizar/(:num)', 'ArchivoController::visualizar2/$1');

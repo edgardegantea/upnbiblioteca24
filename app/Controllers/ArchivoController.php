@@ -197,4 +197,39 @@ class ArchivoController extends Controller
 
         return view('admin/archivos/visualizar', $data);
     }
+
+    public function visualizar2($id)
+    {
+        $archivoModel = new ArchivoModel();
+        $archivo = $archivoModel->find($id);
+
+        if (!$archivo || $archivo['deleted_at'] !== null) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Archivo no encontrado o eliminado');
+        }
+
+        if ($archivo['tipo'] !== 'application/pdf') {
+            return redirect()->back()->with('error', 'Este archivo no es un PDF y no se puede visualizar.');
+        }
+
+        $rutaArchivo = $archivo['ruta'];
+
+        if (!file_exists($rutaArchivo)) {
+            throw new \CodeIgniter\Files\Exceptions\FileNotFoundException('El archivo no se encuentra en el servidor');
+        }
+
+        $data['archivo'] = $archivo;
+
+        return view('frontend/visualizar', $data);
+    }
+
+
+    public function mostrarResultados()
+    {
+        $buscar = $this->request->getGet('buscar');
+
+        $model = new ArchivoModel();
+        $resultados = $model->buscar($buscar);
+
+        return view('frontend/resultados_busqueda', ['resultados' => $resultados]);
+    }
 }

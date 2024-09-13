@@ -31,6 +31,9 @@ class Home extends BaseController
         $data['prelectronicos'] = $model->where('estado', 'activo')->where('tipo', 'prelectronicos')->findAll();
         // $data[] = $model->where('estado', 'activo')->where('tipo', 'gestorbibliografico')->findAll();
 
+
+
+
         return view('frontend/index', $data);
     }
 
@@ -63,6 +66,18 @@ class Home extends BaseController
     public function acercade()
     {
         return view('frontend/acercade');
+    }
+
+
+
+    public function mostrarResultados()
+    {
+        $buscar = $this->request->getGet('buscar');
+
+        $model = new RecursoBibliograficoModel();
+        $resultados = $model->buscar($buscar);
+
+        return view('resultados_busqueda', ['resultados' => $resultados]);
     }
 
 }
