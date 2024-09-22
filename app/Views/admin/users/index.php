@@ -42,7 +42,7 @@
                 <?php foreach ($users as $user): ?>
                     <tr>
                         <td><?= $user['id']; ?></td>
-                        <td><?= $user['name']; ?></td>
+                        <td><?= $user['nombre'] . ' ' . $user['apaterno'] . ' ' . $user['amaterno']; ?></td>
                         <td><?= $user['email']; ?></td>
                         <td><?= $user['username']; ?></td>
                         <td>
@@ -54,8 +54,8 @@
                         </td>
                         <td>
                             <div>
-                                <a href="<?= base_url('users/' . $user['id'] . '/edit'); ?>"><i class="bi bi-pencil-square"></i></a>
-                                <form action="<?= base_url('users/' . $user['id']); ?>" method="post"
+                                <a href="<?= base_url('admin/users/' . $user['id'] . '/edit'); ?>"><i class="bi bi-pencil-square"></i></a>
+                                <form action="<?= base_url('admin/users/' . $user['id']); ?>" method="post"
                                       style="display: inline;">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button type="submit" class="border-0 bg-transparent text-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?');"><i class="bi bi-x-square"></i></button>

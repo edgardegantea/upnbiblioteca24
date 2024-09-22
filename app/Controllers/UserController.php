@@ -32,12 +32,10 @@ class UserController extends ResourceController
     }
 
 
-
-
     public function create()
     {
         $rules = [
-            'name' => 'required',
+            'nombre' => 'required',
             'email' => 'required|valid_email|is_unique[users.email]',
             'username' => 'required|min_length[3]|is_unique[users.username]',
             'password' => 'required|min_length[8]',
@@ -52,7 +50,11 @@ class UserController extends ResourceController
         }
 
         $data = [
-            'name' => $this->request->getVar('name'),
+            'nombre' => $this->request->getVar('nombre'),
+            'apaterno' => $this->request->getVar('apaterno'),
+            'amaterno' => $this->request->getVar('amaterno'),
+            'telefono' => $this->request->getVar('telefono'),
+            'rol' => $this->request->getVar('rol'),
             'email' => $this->request->getVar('email'),
             'username' => $this->request->getVar('username'),
             'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
@@ -66,11 +68,6 @@ class UserController extends ResourceController
             'redirect' => base_url('admin/users')
         ]);
     }
-
-
-
-
-
 
 
     public function edit($id = null)
@@ -87,17 +84,16 @@ class UserController extends ResourceController
     public function update($id = null)
     {
         if (!$id) {
-            return $this->failValidationError('Invalid ID');
+            return $this->failValidationError('ID inválido');
         }
 
         $user = $this->model->find($id);
 
         if (!$user) {
-            return $this->failNotFound('User not found');
+            return $this->failNotFound('Usuario no encontrado');
         }
 
         $rules = [
-            'name' => 'required',
             'email' => 'required|valid_email|is_unique[users.email,id,' . $id . ']',
             'username' => 'required|min_length[3]|is_unique[users.username,id,' . $id . ']',
         ];
@@ -114,10 +110,16 @@ class UserController extends ResourceController
             ])->setStatusCode(400);
         }
 
+
         $data = [
-            'name' => $this->request->getVar('name'),
+            'nombre' => $this->request->getVar('nombre'),
+            'apaterno' => $this->request->getVar('apaterno'),
+            'amaterno' => $this->request->getVar('amaterno'),
+            'telefono' => $this->request->getVar('telefono'),
+            'rol' => $this->request->getVar('rol'),
             'email' => $this->request->getVar('email'),
             'username' => $this->request->getVar('username'),
+            'active' => 1
         ];
 
         if ($this->request->getVar('password')) {
@@ -132,7 +134,6 @@ class UserController extends ResourceController
             'redirect' => base_url('admin/users')
         ]);
     }
-
 
 
     public function delete($id = null)

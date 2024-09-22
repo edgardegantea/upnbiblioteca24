@@ -19,13 +19,41 @@
             <?php endif; ?>
 
             <div class="form-group">
-                <label for="name">Nombre:</label>
-                <input type="text" class="form-control" id="name" name="name" value="<?= old('name', isset($user['name']) ? $user['name'] : ''); ?>">
+                <label for="name">Nombre (s):</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" value="<?= old('nombre', isset($user['nombre']) ? $user['nombre'] : ''); ?>">
             </div>
+
+            <div class="form-group">
+                <label for="name">Apellido paterno:</label>
+                <input type="text" class="form-control" id="apaterno" name="apaterno" value="<?= old('apaterno', isset($user['apaterno']) ? $user['apaterno'] : ''); ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Apellido materno:</label>
+                <input type="text" class="form-control" id="amaterno" name="amaterno" value="<?= old('amaterno', isset($user['amaterno']) ? $user['amaterno'] : ''); ?>">
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="name">Teléfono:</label>
+                <input type="text" class="form-control" id="telefono" name="telefono" value="<?= old('telefono', isset($user['telefono']) ? $user['telefono'] : ''); ?>">
+            </div>
+
 
             <div class="form-group">
                 <label for="email">Correo Electrónico:</label>
                 <input type="email" class="form-control" id="email" name="email" value="<?= old('email', isset($user['email']) ? $user['email'] : ''); ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="rol">Rol</label>
+                <select name="rol" class="form-control">
+                    <option value="admin">Administrador</option>
+                    <option value="docente">Docente</option>
+                    <option value="usuario">Usuario Estudiante</option>
+                    <option value="externo">Externo</option>
+                </select>
             </div>
 
             <div class="form-group">

@@ -27,11 +27,14 @@ class Auth extends BaseController
         if ($user && password_verify($password, $user['password'])) {
             
             $sessionData = [
-                'user_id' => $user['id'],
-                'username' => $user['username'],
+                'user_id'   => $user['id'],
+                'username'  => $user['username'],
                 'rol'       => $user['rol'],
-                'name'      => $user['name'],
+                'nombre'    => $user['nombre'],
+                'apaterno'  => $user['apaterno'],
+                'amaterno'  => $user['amaterno'],
                 'email'     => $user['email'],
+                'telefono'  => $user['telefono'],
                 'logged_in' => true
             ];
             session()->set($sessionData);
