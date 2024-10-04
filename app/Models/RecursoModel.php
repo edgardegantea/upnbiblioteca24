@@ -43,7 +43,7 @@ class RecursoModel extends Model
         return $this->belongsTo(TagModel::class, 'tag', 'id');
     }
 
-    // Método para agregar autores 
+
     public function agregarAutores($recursoId, $autoresIds)
     {
         $data = [];

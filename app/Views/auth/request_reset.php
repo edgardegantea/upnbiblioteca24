@@ -27,16 +27,14 @@
                     </div>
                 <?php endif; ?>
 
-                <form action="/reset-password/update" method="post">
+                <form action="/reset-password" method="post">
                     <?= csrf_field() ?>
-                    <input type="hidden" name="token" value="<?= $token; ?>">
-                    
                     <div class="mb-3">
-                        <label for="password" class="form-label">Nueva Contraseña:</label>
-                        <input type="password" name="password" id="password" class="form-control" required>
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" name="email" id="email" class="form-control" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">Actualizar Contraseña</button>
+                    <button type="submit" class="btn btn-primary w-100">Enviar enlace de restablecimiento</button>
                 </form>
 
                 <div class="text-center mt-3">

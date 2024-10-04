@@ -13,16 +13,24 @@
     </div>
 <?php endif; ?>
 
-<form action="<?= base_url('autores' . (isset($autor) ? '/' . $autor['id'] : '')) ?>" method="post" enctype="multipart/form-data">
+<form action="<?= base_url('admin/autores' . (isset($autor) ? '/' . $autor['id'] : '')) ?>" method="post" enctype="multipart/form-data">
     <?= csrf_field() ?>
     <?php if (isset($autor)): ?>
         <input type="hidden" name="_method" value="PUT">
     <?php endif; ?>
 
-    <div class="mb-3">
-        <label for="nombre" class="form-label">Nombre:</label>
-        <input type="text" class="form-control" name="nombre" value="<?= old('nombre', $autor['nombre'] ?? '') ?>">
+    <div class="row">
+        <div class="mb-3 col-md-6">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" name="nombre" value="<?= old('nombre', $autor['nombre'] ?? '') ?>">
+        </div>
+
+        <div class="mb-3 col-md-6">
+            <label for="apellido" class="form-label">Apellidos:</label>
+            <input type="text" class="form-control" name="apellido" value="<?= old('apellido', $autor['apellido'] ?? '') ?>">
+        </div>
     </div>
+
 
     <div class="mb-3">
         <label for="foto" class="form-label">Foto:</label>

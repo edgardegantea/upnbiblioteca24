@@ -40,7 +40,7 @@ class Autores extends ResourceController
     public function create()
     {
         $rules = $this->model->validationRules;
-        $rules['foto'] = 'uploaded[foto]|max_size[foto,1024]|is_image[foto]';
+        $rules['foto'] = 'uploaded[foto]|permit_empty|max_size[foto,1024]|is_image[foto]';
 
         if ($this->validate($rules)) {
             $imagen = $this->request->getFile('foto');

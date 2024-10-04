@@ -40,12 +40,12 @@
         <?php foreach ($autores as $autor): ?>
             <tr>
                 <td><?= $autor['id'] ?></td>
-                <td><?= $autor['nombre'] ?></td>
+                <td><?= $autor['nombre'] . ' ' . $autor['apellido'] ?></td>
                 <td><?= $autor['estado'] ? 'Activo' : 'Inactivo' ?></td>
                 <td>
-                    <a href="/autores/<?= $autor['id'] ?>" class="btn btn-info btn-sm">Ver</a>
-                    <a href="/autores/<?= $autor['id'] ?>/edit" class="btn btn-warning btn-sm">Editar</a>
-                    <form action="/autores/<?= $autor['id'] ?>" method="post" class="d-inline">
+                    <a href="/admin/autores/<?= $autor['id'] ?>" class="btn btn-info btn-sm">Ver</a>
+                    <a href="<?= 'autores/' . $autor['id'] . '/edit' ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <form action="/admin/autores/<?= $autor['id'] ?>" method="post" class="d-inline">
                         <?= csrf_field() ?>
                         <input type="hidden" name="_method" value="DELETE">
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?')">Eliminar</button>

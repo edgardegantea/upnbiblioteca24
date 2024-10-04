@@ -6,7 +6,7 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class AuthFilter implements FilterInterface
+class RoleFilter implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -25,8 +25,13 @@ class AuthFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (!session()->get('is_logged_in')) {
-            return redirect()->to('/login')->with('error', 'Debe iniciar sesión primero.');
+        $session = session();
+        $userRole = $session->get('role');
+
+        if (!in_array($userRole, $arguments)) {
+            $session->set('redirect_url', previous_url());
+            
+            return redirect()->to('/errors/access_denied');
         }
     }
 

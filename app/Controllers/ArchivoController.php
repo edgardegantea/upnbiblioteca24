@@ -39,7 +39,7 @@ class ArchivoController extends Controller
         $validationRule = [
             'archivos' => [
                 'label' => 'Archivos',
-                'rules' => 'uploaded[archivos]|ext_in[archivos,pdf]|max_size[archivos,50000]',
+                'rules' => 'uploaded[archivos]|ext_in[archivos,pdf]|max_size[archivos,500000]',
             ],
         ];
 
@@ -49,7 +49,6 @@ class ArchivoController extends Controller
         } else {
             $files = $this->request->getFileMultiple('archivos');
             $archivoModel = new ArchivoModel();
-            // $uploadPath = WRITEPATH . 'uploads/recursosDigitales/';
             $uploadPath = ROOTPATH . 'public/uploads/recursosDigitales/';
 
             foreach ($files as $file) {
