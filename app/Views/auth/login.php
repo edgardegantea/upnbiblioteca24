@@ -176,7 +176,7 @@
     </div>
 
 
-    <main class="form-signin w-100 m-auto">
+    <main class="form-signin w-100 m-auto text-center">
 
         <?php if (session()->getFlashdata('error')): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -193,7 +193,6 @@
         <?php endif; ?>
 
         <form action="/login" method="post">
-            <!-- <img class="mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
             <h1 class="h3 mb-3 fw-normal">Biblioteca UPN212</h1>
 
             <div class="form-floating">

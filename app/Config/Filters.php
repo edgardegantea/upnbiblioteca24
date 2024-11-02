@@ -106,6 +106,5 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [
-        'checkUserData' => ['before' => ['admin/*', 'docente/*', 'usuario/*', 'profile/*']],
     ];
 }

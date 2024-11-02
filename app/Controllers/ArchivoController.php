@@ -26,6 +26,12 @@ class ArchivoController extends Controller
         return view('admin/archivos/index', $data);
     }
 
+    /*
+    public function show($id = null) {
+        return 'Show no disponible';
+    }
+    */
+
     public function create()
     {
         $clasificacionModel = new ClasificacionModel();

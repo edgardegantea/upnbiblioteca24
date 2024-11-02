@@ -9,30 +9,44 @@ class RecursoModel extends Model
     protected $table = 'recursos';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'archivo', 'tipo', 'tag', 'titulo', 'subtitulo', 'genero', 'isbn', 
-        'anio_publicacion', 'idioma', 'editorial', 'edicion', 'descripcion', 
-        'portada', 'paginas', 'fecha_publicacion', 'clasificacion', 'temas', 
-        'formato', 'precio', 'sellado', 'etiquetado', 'notas'
+        'archivo',
+        'tipo',
+        'tag',
+        'titulo',
+        'subtitulo',
+        'genero',
+        'isbn',
+        'anio_publicacion',
+        'idioma',
+        'editorial',
+        'edicion',
+        'descripcion',
+        'portada',
+        'paginas',
+        'fecha_publicacion',
+        'clasificacion',
+        'temas',
+        'formato',
+        'precio',
+        'sellado',
+        'etiquetado',
+        'notas'
     ];
     protected $useSoftDeletes = true;
     protected $useTimestamps = true;
-    protected $dateFormat = 'datetime'; // O ajusta según tu configuración
-
-    // Relaciones 
-
-    // Relación con autores (Muchos a Muchos)
+    protected $dateFormat = 'datetime';
+    
+    
     public function autores()
     {
         return $this->belongsToMany(AutorModel::class, 'autores_recursos', 'recurso_id', 'autor_id');
     }
 
-    // Relación con género (Uno a Muchos) 
     public function genero()
     {
-        return $this->belongsTo(GeneroModel::class, 'genero', 'id'); 
+        return $this->belongsTo(GeneroModel::class, 'genero', 'id');
     }
 
-    // Relación con editorial (Uno a Muchos) 
     public function editorial()
     {
         return $this->belongsTo(EditorialModel::class, 'editorial', 'id');
@@ -54,6 +68,57 @@ class RecursoModel extends Model
             ];
         }
         $this->db->table('autores_recursos')->insertBatch($data);
+    }
+
+
+    public function getAutoresByRecursoId($recursoId)
+    {
+        return $this->db->table('autores')
+            ->join('autores_recursos', 'autores.id = autores_recursos.autor')
+            ->where('autores_recursos.recurso', $recursoId)
+            ->get()
+            ->getResultArray();
+    }
+
+
+    public function getAutores($id)
+    {
+        return $this->db->table('autores_recursos')
+            ->join('autores', 'autores.id = autores_recursos.autor_id')
+            ->where('autores_recursos.recurso_id', $id)
+            ->select('autores.*')
+            ->get()
+            ->getResultArray();
+    }
+
+    public function getGenero($id)
+    {
+        return $this->db->table('generos')
+            ->join('recursos', 'generos.id = recursos.genero_id')
+            ->where('recursos.id', $id)
+            ->select('generos.*')
+            ->get()
+            ->getRowArray();
+    }
+
+    public function getEditorial($id)
+    {
+        return $this->db->table('editoriales')
+            ->join('recursos', 'editoriales.id = recursos.editorial_id')
+            ->where('recursos.id', $id)
+            ->select('editoriales.*')
+            ->get()
+            ->getRowArray();
+    }
+
+    public function getTag($id)
+    {
+        return $this->db->table('tags')
+            ->join('recursos', 'tags.id = recursos.tag_id')
+            ->where('recursos.id', $id)
+            ->select('tags.*')
+            ->get()
+            ->getRowArray();
     }
 
 }

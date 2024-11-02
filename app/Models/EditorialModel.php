@@ -17,7 +17,6 @@ class EditorialModel extends Model
 
     protected $validationRules  = [
         'nombre'      => 'required|min_length[3]',
-        'tipo'        => 'required|in_list[editorial,sello]',
         'email'       => 'permit_empty|valid_email',
         'url'         => 'permit_empty|valid_url',
         'pais'        => 'permit_empty'
@@ -26,9 +25,6 @@ class EditorialModel extends Model
     protected $validationMessages = [
         'nombre' => [
             'is_unique' => 'El nombre de la editorial ya existe.'
-        ],
-        'tipo' => [
-            'in_list' => 'El tipo debe ser "editorial" o "sello".'
         ]
     ];
 

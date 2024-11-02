@@ -9,7 +9,7 @@ class AuthController extends BaseController
 
     public function login()
     {
-        return view('auth/login');
+        return view('auth/login'); // Carga la vista de login
     }
 
     public function authenticate()
@@ -31,17 +31,19 @@ class AuthController extends BaseController
                     'is_logged_in' => true,
                 ]);
 
+                // Redirección dependiendo de si el perfil está completo
                 if (!$usuario['is_profile_complete']) {
                     return redirect()->to('/complete-profile');
                 }
 
+                // Redirigir basado en el rol
                 switch ($usuario['role']) {
                     case 'admin':
                         return redirect()->to('/admin');
                     case 'docente':
-                        return redirect()->to('/docente');
+                        return redirect()->to('/docente');  // Asegúrate de que esta ruta esté definida
                     case 'estudiante':
-                        return redirect()->to('/estudiante');
+                        return redirect()->to('/estudiante');  // Asegúrate de que esta ruta esté definida
                     default:
                         return redirect()->to('/login')->with('error', 'Rol no válido.');
                 }
@@ -53,10 +55,11 @@ class AuthController extends BaseController
         }
     }
 
+
     public function logout()
     {
         $session = session();
-        $session->destroy();
-        return redirect()->to('/login')->with('success', 'Has cerrado sesión exitosamente.');
+        $session->destroy(); // Destruir la sesión al cerrar sesión
+        return redirect()->to('/login')->with('message', 'Sesión cerrada con éxito');
     }
 }

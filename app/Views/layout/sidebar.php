@@ -15,7 +15,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?= base_url('admin/users'); ?>" class="nav-link">
+                            <a href="<?= base_url('admin/usuarios'); ?>" class="nav-link">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Usuarios</p>
                             </a>

@@ -21,6 +21,7 @@
             </div>
             <div class="col-md-4">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    
                     <a href="<?= base_url('admin/archivos/create'); ?>" class="btn btn-primary">Subir recurso (s)</a>
                 </div>
             </div>

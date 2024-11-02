@@ -1,5 +1,5 @@
 -- CREATE DATABASE ciauth;
-USE bibliotecaupn24;
+USE biblioteca;
 
 
 CREATE TABLE users (

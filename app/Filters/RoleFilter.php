@@ -25,14 +25,15 @@ class RoleFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
+
         $session = session();
         $userRole = $session->get('role');
 
         if (!in_array($userRole, $arguments)) {
-            $session->set('redirect_url', previous_url());
-            
-            return redirect()->to('/errors/access_denied');
+            log_message('debug', 'Acceso denegado para el rol: ' . $userRole);
+            return redirect()->to('/errors/access_denied')->with('error', 'Acceso no autorizado.');
         }
+
     }
 
     /**

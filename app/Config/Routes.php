@@ -7,28 +7,6 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 
-
-// Rutas para Admin
-$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'role:admin'], function($routes) {
-    $routes->get('/', 'AdminController::index');
-    $routes->get('/usuarios', 'AdminController::usuarios');
-    $routes->get('/reportes', 'AdminController::reportes');
-});
-
-// Rutas para Docente
-$routes->group('docente', ['namespace' => 'App\Controllers\Docente', 'filter' => 'role:docente'], function($routes) {
-    $routes->get('/', 'DocenteController::index');
-    $routes->get('/clases', 'DocenteController::clases');
-});
-
-// Rutas para Estudiante
-$routes->group('estudiante', ['namespace' => 'App\Controllers\Estudiante', 'filter' => 'role:estudiante'], function($routes) {
-    $routes->get('/', 'EstudianteController::index');
-    $routes->get('/notas', 'EstudianteController::notas');
-});
-
-// Rutas adicionales
-
 $routes->get('/', 'Home::index');
 $routes->get('/login', 'AuthController::login');
 $routes->post('/login', 'AuthController::authenticate');
@@ -39,87 +17,73 @@ $routes->get('/reset-password/(:any)', 'PasswordController::resetPassword/$1');
 $routes->post('/reset-password/update', 'PasswordController::updatePassword');
 $routes->get('/errors/access_denied', 'ErrorsController::accessDenied');
 
+
 $routes->get('/complete-profile', 'ProfileController::completeProfile');
 $routes->post('/update-profile', 'ProfileController::updateProfile');
 
 
-
-/*
-$routes->group('', ['namespace' => 'App\Controllers'], function ($routes) {
-    $routes->get('login', 'AuthController::login', ['filter' => 'noauth']);
-    $routes->post('login', 'AuthController::loginProcess');
-    $routes->get('logout', 'AuthController::logout');
-
-    $routes->get('forgot-password', 'Auth::forgotPassword', ['filter' => 'noauth']);
-    $routes->post('forgot-password', 'Auth::processForgotPassword');
-    $routes->get('reset-password/(:segment)', 'Auth::resetPassword/$1', ['filter' => 'noauth']);
-    $routes->post('reset-password', 'Auth::processResetPassword');
-});
-
-$routes->group('profile', ['filter' => 'auth'], function($routes) {
-    $routes->get('update', 'ProfileController::update');
-    $routes->post('update', 'ProfileController::update');
-});
-
-
-$routes->get('reglamento', 'Home::reglamento');
-$routes->get('servicios', 'Home::servicios');
-$routes->get('acercade', 'Home::acercade');
-
-
-$routes->group('admin', ['filter' => 'auth'], function($routes) {
+$routes->group('admin', ['filter' => ['auth', 'role:admin'], 'namespace' => 'App\Controllers'], function ($routes) {
     $routes->get('/', 'Admin\AdminController::index');
-
-
-    $routes->resource('users', ['controller' => 'UserController']);
+    // $routes->resource('usuarios', ['controller' => 'UserController']);
+    $routes->resource('archivos', ['controller' => 'ArchivoController']);
     $routes->resource('editoriales', ['controller' => 'Editoriales']);
     $routes->resource('autores', ['controller' => 'Autores']);
     $routes->resource('generos', ['controller' => 'Generos']);
-    $routes->resource('recursos', ['controller' => 'Recursos']);
-    $routes->resource('publicaciones', ['controller' => 'Publicaciones']);
 
-
-    $routes->get('carousel', 'CarouselController::index');
-    $routes->get('carousel/create', 'CarouselController::create');
-    $routes->post('carousel/store', 'CarouselController::store');
-    $routes->get('carousel/edit/(:num)', 'CarouselController::edit/$1');
-    $routes->put('carousel/update/(:num)', 'CarouselController::update/$1');
-    $routes->get('carousel/delete/(:num)', 'CarouselController::delete/$1');
-
-
+    $routes->resource('publicaciones', ['controller' => 'PublicacionesController']);
     $routes->get('/descarga/(:num)', 'ArchivoController::descargar/$1');
     $routes->get('archivos/visualizar/(:num)', 'ArchivoController::visualizar/$1');
 
-    $routes->get('archivos', 'ArchivoController::index');
-    $routes->get('archivos/create', 'ArchivoController::create');
-    $routes->post('archivos/store', 'ArchivoController::store');
-    $routes->get('archivos/edit/(:num)', 'ArchivoController::edit/$1');
-    $routes->post('archivos/update/(:num)', 'ArchivoController::update/$1');
-    $routes->get('archivos/delete/(:num)', 'ArchivoController::delete/$1');
+
+    $routes->get('recursos/step1', 'Recursos::step1_autores');
+    $routes->post('recursos/step1', 'Recursos::processStep1');
+    $routes->get('recursos/step2', 'Recursos::step2_categoria');
+    $routes->post('recursos/step2', 'Recursos::processStep2');
+    $routes->get('recursos/step3', 'Recursos::step3_tag');
+    $routes->post('recursos/step3', 'Recursos::processStep3');
+    $routes->get('recursos/step4', 'Recursos::step4_editorial');
+    $routes->post('recursos/step4', 'Recursos::processStep4');
+    $routes->get('recursos/step5', 'Recursos::step5_recurso');
+    $routes->post('recursos/step5', 'Recursos::store');
+
+    $routes->resource('recursos', ['controller' => 'Recursos']);
+
+    $routes->group('carousel', function ($routes) {
+        $routes->get('/', 'CarouselController::index');
+        $routes->get('create', 'CarouselController::create');
+        $routes->post('store', 'CarouselController::store');
+        $routes->get('edit/(:num)', 'CarouselController::edit/$1');
+        $routes->put('update/(:num)', 'CarouselController::update/$1');
+        $routes->get('delete/(:num)', 'CarouselController::delete/$1');
+    });
 
 
-    $routes->get('clasificaciones', 'ClasificacionController::index');
-    $routes->get('clasificaciones/create', 'ClasificacionController::create');
-    $routes->post('clasificaciones/store', 'ClasificacionController::store');
-    $routes->get('clasificaciones/edit/(:num)', 'ClasificacionController::edit/$1');
-    $routes->post('clasificaciones/update/(:num)', 'ClasificacionController::update/$1');
-    $routes->get('clasificaciones/delete/(:num)', 'ClasificacionController::delete/$1');
+    $routes->group('usuarios', function ($routes) {
+        $routes->get('/', 'UserController::index');                      // Listar todos los usuarios
+        $routes->get('create', 'UserController::create');                // Mostrar formulario de creación de usuario
+        $routes->post('store', 'UserController::store');                 // Guardar un nuevo usuario
+        $routes->get('show/(:num)', 'UserController::show/$1');          // Mostrar detalles de un usuario específico
+        $routes->get('edit/(:num)', 'UserController::edit/$1');
+
+
+        // Mostrar formulario de edición de usuario
+        $routes->post('update/(:num)', 'UserController::update/$1');
+        // $routes->post('/', 'UserController::update/$1');     // Actualizar un usuario existente (utilizando POST y _method='PUT')
+        $routes->delete('delete/(:num)', 'UserController::delete/$1');   // Eliminar un usuario
+    });
+
+
+
+
 });
 
 
-$routes->group('usuario', ['filter' => 'auth'], function($routes) {
-    $routes->get('/', 'Usuario\UsuarioController::index');
-    $routes->get('archivos/visualizar/(:num)', 'ArchivoController::visualizar/$1');
+$routes->group('docente', ['filter' => ['auth', 'role:docente']], function ($routes) {
+    $routes->get('/', 'Docente\DocenteController::index');
+    $routes->get('x', 'Docente\DocenteController::x');
 });
 
-$routes->get('/resultados-busqueda', 'ArchivoController::mostrarResultados');
-$routes->get('/archivos/visualizar/(:num)', 'ArchivoController::visualizar2/$1');
-*/
 
-
-
-
-
-
-
-
+$routes->group('estudiante', ['filter' => ['auth', 'role:usuario'], 'namespace' => 'App\Controllers\Estudiante'], function ($routes) {
+    $routes->get('/', 'UsuarioController::index');
+});
