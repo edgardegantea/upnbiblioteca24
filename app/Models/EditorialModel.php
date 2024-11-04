@@ -10,13 +10,14 @@ class EditorialModel extends Model
     protected $primaryKey       = 'id';
     protected $useSoftDeletes   = true;
     protected $allowedFields    = [
-        'nombre_abreviado', 'nombre', 'tipo', 'direccion', 'email',
+        'nombre', 'nombre_abreviado',  'tipo', 'direccion', 'email',
         'url', 'pais', 'prefijos', 'descripcion', 'estado'
     ];
     protected $useTimestamps    = true;
 
     protected $validationRules  = [
         'nombre'      => 'required|min_length[3]',
+        'nombre_abreviado'      => 'permit_empty|min_length[3]',
         'email'       => 'permit_empty|valid_email',
         'url'         => 'permit_empty|valid_url',
         'pais'        => 'permit_empty'

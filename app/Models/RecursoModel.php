@@ -8,6 +8,7 @@ class RecursoModel extends Model
 {
     protected $table = 'recursos';
     protected $primaryKey = 'id';
+    protected $returnType = 'array';
     protected $allowedFields = [
         'archivo',
         'tipo',
@@ -120,5 +121,26 @@ class RecursoModel extends Model
             ->get()
             ->getRowArray();
     }
+
+
+    public function getRecursoCompleto($id)
+    {
+        $recurso = $this->select('recursos.*, generos.nombre as genero_nombre, editoriales.nombre as editorial_nombre, tags.nombre as tag_nombre')
+            ->join('generos', 'generos.id = recursos.genero', 'left')
+            ->join('editoriales', 'editoriales.id = recursos.editorial', 'left')
+            ->join('tags', 'tags.id = recursos.tag', 'left')
+            ->where('recursos.id', $id)
+            ->first();
+
+        if (!$recurso) {
+            throw new \Exception('Recurso no encontrado');
+        }
+
+        $recurso['autores'] = $this->getAutoresByRecursoId($id);
+
+        return $recurso;
+    }
+
+
 
 }

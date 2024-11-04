@@ -58,7 +58,7 @@ class UserController extends ResourceController
         return redirect()->to('/admin/usuarios')->with('success', 'Usuario creado exitosamente.');
     }
 
-    // Muestra los detalles de un usuario específico
+
     public function show($id = null)
     {
         $user = $this->usuarioModel->find($id);

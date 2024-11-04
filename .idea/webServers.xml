@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="14e5ea8a-27ab-4432-aac9-c76291d61015" name="ionos">
+        <fileTransfer rootFolder="/apps/biblioteca" accessType="SFTP" host="access971490128.webspace-data.io" port="22" sshConfigId="d001f2e5-77c4-4aaf-a779-88c36b662ebf" sshConfig="u113093563@access971490128.webspace-data.io:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

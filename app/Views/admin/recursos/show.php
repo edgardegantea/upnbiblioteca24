@@ -45,7 +45,7 @@
 
 <div class="mt-4">
     <a href="<?= base_url('admin/recursos') ?>" class="btn btn-secondary">Volver a la lista</a>
-    <a href="<?= base_url('admin/recursos/edit/' . $recurso['id']) ?>" class="btn btn-primary">Editar</a>
+    <!-- <a href="<?= base_url('admin/recursos/edit/' . $recurso['id']) ?>" class="btn btn-primary">Editar</a> -->
 </div>
 
 <?= $this->endSection(); ?>

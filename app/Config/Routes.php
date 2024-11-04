@@ -35,6 +35,17 @@ $routes->group('admin', ['filter' => ['auth', 'role:admin'], 'namespace' => 'App
     $routes->get('archivos/visualizar/(:num)', 'ArchivoController::visualizar/$1');
 
 
+    $routes->group('recursos', function($routes) {
+        $routes->get('/', 'Recursos::index'); // Listado de recursos
+        $routes->get('show/(:num)', 'Recursos::show/$1'); // Mostrar recurso específico
+        $routes->get('create', 'Recursos::create'); // Cargar formulario de creación
+        $routes->post('store', 'Recursos::store'); // Almacenar nuevo recurso
+        $routes->get('edit/(:num)', 'Recursos::edit/$1'); // Cargar formulario de edición
+        $routes->post('update/(:num)', 'Recursos::update/$1'); // Actualizar recurso
+        $routes->delete('delete/(:num)', 'Recursos::delete/$1'); // Eliminar recurso
+    });
+
+
     $routes->get('recursos/step1', 'Recursos::step1_autores');
     $routes->post('recursos/step1', 'Recursos::processStep1');
     $routes->get('recursos/step2', 'Recursos::step2_categoria');
@@ -46,7 +57,6 @@ $routes->group('admin', ['filter' => ['auth', 'role:admin'], 'namespace' => 'App
     $routes->get('recursos/step5', 'Recursos::step5_recurso');
     $routes->post('recursos/step5', 'Recursos::store');
 
-    $routes->resource('recursos', ['controller' => 'Recursos']);
 
     $routes->group('carousel', function ($routes) {
         $routes->get('/', 'CarouselController::index');

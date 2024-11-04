@@ -40,7 +40,7 @@
         <?php foreach ($autores as $autor): ?>
             <tr>
                 <td><?= $autor['id'] ?></td>
-                <td><?= $autor['nombre'] . ' ' . $autor['apellido'] ?></td>
+                <td><?= $autor['nombre'] ?></td>
                 <td><?= $autor['estado'] ? 'Activo' : 'Inactivo' ?></td>
                 <td>
                     <a href="/admin/autores/<?= $autor['id'] ?>" class="btn btn-info btn-sm">Ver</a>

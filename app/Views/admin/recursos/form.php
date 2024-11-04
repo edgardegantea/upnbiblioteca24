@@ -34,7 +34,7 @@
                                                     if (isset($recurso['autores']) && in_array($autor['id'], array_column($recurso['autores'], 'id'))) {
                                                         echo 'selected';
                                                     } ?>>
-                    <?= $autor['nombre'] ?> <?= $autor['apellido'] ?>
+                    <?= $autor['nombre'] ?>
                 </option>
             <?php endforeach; ?>
         </select>

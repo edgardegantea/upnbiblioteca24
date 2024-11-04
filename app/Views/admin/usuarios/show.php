@@ -7,6 +7,7 @@
     <div class="card mt-4">
         <div class="card-body">
             <h5 class="card-title"><?= esc($user['nombre']) ?> <?= esc($user['apaterno']) ?> <?= esc($user['amaterno']) ?></h5>
+            <br>
             <p><strong>Nombre de Usuario:</strong> <?= esc($user['username']) ?></p>
             <p><strong>Correo Electrónico:</strong> <?= esc($user['email']) ?></p>
             <p><strong>Teléfono:</strong> <?= esc($user['telefono']) ?></p>

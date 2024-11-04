@@ -35,6 +35,7 @@ class Recursos extends Controller
             ->select('recursos.*, generos.nombre as genero_nombre, editoriales.nombre as editorial_nombre')
             ->join('generos', 'generos.id = recursos.genero')
             ->join('editoriales', 'editoriales.id = recursos.editorial')
+            ->orderBy('recursos.id', 'desc')
             ->findAll();
 
         foreach ($data['recursos'] as &$recurso) {
@@ -44,27 +45,61 @@ class Recursos extends Controller
         return view('admin/recursos/index', $data);
     }
 
+
+    public function listarRecursos()
+    {
+        $model = new RecursoModel();
+        $recursos = $model
+            ->select('id, titulo')
+            ->findAll();
+
+        return $this->response->setJSON(['data' => $recursos]);
+    }
+
+
+
     public function show($id = null)
     {
-        $recurso = $this->recursoModel->find($id);
+        if (!$id) {
+            return redirect()->to('/admin/recursos')->with('error', 'ID de recurso no proporcionado');
+        }
+
+        $recurso = $this->recursoModel->getRecursoCompleto($id);
 
         if (!$recurso) {
             return redirect()->to('/admin/recursos')->with('error', 'Recurso no encontrado');
         }
 
-
-        $recurso['autores'] = $this->recursoModel->getAutores($id);
-        $recurso['genero'] = $this->recursoModel->getGenero($id);
-        $recurso['editorial'] = $this->recursoModel->getEditorial($id);
-        $recurso['tag'] = $this->recursoModel->getTag($id);
-
-        $data['recurso'] = $recurso;
-
-        return view('admin/recursos/show', $data);
+        return view('admin/recursos/show', ['recurso' => $recurso]);
     }
 
 
 
+    public function edit($id = null)
+    {
+        $data['recurso'] = $this->recursoModel->find($id);
+
+        if (!$data['recurso']) {
+            return redirect()->to('/admin/recursos')->with('error', 'Recurso no encontrado');
+        }
+
+        // Suponiendo que `getAutoresByRecursoId` devuelve un array de autores
+        $data['recurso']['autores'] = $this->recursoModel->getAutoresByRecursoId($id);
+
+        // Cargar listas para el formulario, estas también serán arrays
+        $data['generos'] = $this->generoModel->findAll();
+        $data['editoriales'] = $this->editorialModel->findAll();
+        $data['autores'] = $this->autorModel->findAll();
+        $data['tags'] = $this->tagModel->findAll();
+
+        return view('admin/recursos/form', $data);
+    }
+
+
+
+
+
+    /*
     public function edit($id = null)
     {
         $data['recurso'] = $this->recursoModel->find($id);
@@ -81,6 +116,8 @@ class Recursos extends Controller
 
         return view('admin/recursos/form', $data);
     }
+    */
+
 
     public function update($id = null)
     {
@@ -254,12 +291,9 @@ class Recursos extends Controller
         if ($editorial_id == 'nueva') {
             $nombreEditorial = $this->request->getPost('nueva_editorial');
 
-            // Inserta y verifica el resultado
             if ($this->editorialModel->insert(['nombre' => $nombreEditorial])) {
-                // Obtenemos el ID de la última inserción
                 $editorial_id = $this->editorialModel->insertID();
             } else {
-                // Si falla, muestra un mensaje de error o redirige
                 return redirect()->back()->with('error', 'Error al guardar la nueva editorial.');
             }
         }
@@ -281,7 +315,7 @@ class Recursos extends Controller
         // Definir las reglas de validación
         $rules = [
             'titulo' => 'required|min_length[3]|max_length[255]',
-            'isbn' => 'required|is_unique[recursos.isbn]|max_length[13]',
+            'isbn' => 'required|is_unique[recursos.isbn]|max_length[20]',
             'anio_publicacion' => 'permit_empty|numeric|min_length[4]|max_length[4]',
             'idioma' => 'permit_empty',
             'edicion' => 'permit_empty|min_length[1]|max_length[50]',

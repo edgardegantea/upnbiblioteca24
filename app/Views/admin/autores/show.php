@@ -17,5 +17,5 @@
     <p>Autor no encontrado.</p>
 <?php endif; ?>
 
-<a href="/autores" class="btn btn-secondary">Volver</a>
+<a href="/admin/autores" class="btn btn-secondary">Volver</a>
 <?= $this->endSection() ?>
